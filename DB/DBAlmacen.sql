@@ -19,12 +19,12 @@ CREATE TABLE Marcas
 
 CREATE TABLE Usuarios
 (
-	idusuario 	INT AUTO_INCREMENT PRIMARY KEY,
-	idpersona 	INT 		NOT NULL, -- FK
-	nombreusuario	VARCHAR(30) 	NOT NULL,
-	claveacceso	VARCHAR(100)	NOT NULL,
+	idusuario 		INT AUTO_INCREMENT PRIMARY KEY,
+	idpersona 		INT 		NOT NULL, -- FK
+	nombreusuario	VARCHAR(30) NOT NULL,
+	claveacceso		VARCHAR(100)	NOT NULL,
 	fechacreacion	DATETIME  	NOT NULL DEFAULT NOW(),
-	estado		CHAR(1)		NOT NULL,
+	estado			CHAR(1)			NOT NULL DEFAULT 1,
 	CONSTRAINT fk_idpersona_usuarios FOREIGN KEY (idpersona) REFERENCES Personas(idpersona)
 )ENGINE = INNODB;
 
@@ -64,7 +64,6 @@ CREATE TABLE Movimientos
 	idproducto	INT 		NOT NULL,
 	fecha 		DATETIME 	NOT NULL DEFAULT NOW(),
 	idusuario	INT 		NOT NULL,
-	saldoactual	INT 		NOT NULL,
 	cantidad	INT 		NOT NULL,
 	CONSTRAINT fk_idproducto_movimiento FOREIGN KEY (idproducto) REFERENCES Productos(idproducto),
 	CONSTRAINT fk_idusuario_produc FOREIGN KEY (idusuario) REFERENCES Usuarios(idusuario)
@@ -98,7 +97,7 @@ BEGIN
 	INSERT INTO Personas (apellidos, nombres, telefono, email) VALUES (_apellidos, _nombres, _telefono, _email);
 END
 
-CALL spu_registrar_personas("Medina Valenzuela", "Israel Lucio", "932966075", "lucho13@gmail.com");
+CALL spu_registrar_personas("Llanos Ramos", "Mirian Elizabeth", "987876765", "mirian106@gmail.com");
 
 -- ***************************************************************************************************************************************
 -- SP DE USUARIOS
@@ -124,6 +123,8 @@ END $$
 
 CALL spu_buscar_usuarios('Lucio');
 
+SELECT * FROM Usuarios
+
 -- REGISTRAR
 DELIMITER $$
 CREATE PROCEDURE spu_registrar_usuarios(
@@ -141,10 +142,11 @@ END$$
 -- LA CONTRASEÑA de Israel es lucho13
 CALL spu_registrar_usuarios(1, "Lucio", "$2y$10$2KunXWAGQp0/0SPQnRTftuIUdWF7/11nmwfKfDQBMiu3XIX1jGqFK", "ADM")
 CALL spu_registrar_usuarios(3, 'Mirian', '$2y$10$lEXBZE43Zw3u3NRm6ePts.UgaL5BkH.ejh0iKMn.FLUhTPkTOHgXu', 'AST')
-CALL spu_registrar_usuarios(4, 'Israel', '$2y$10$2xjnShh2W9ctDyeFduPmgeXEOYswLtHCJYS20RRNPvOtcN06bLkFq', 'SPV')
+CALL spu_registrar_usuarios(2, 'Israel', '$2y$10$2xjnShh2W9ctDyeFduPmgeXEOYswLtHCJYS20RRNPvOtcN06bLkFq', 'SPV')
 
 DELETE FROM Usuarios WHERE idusuario = 2
 SELECT * FROM Usuarios
+UPDATE Usuarios SET estado = 1
 -- ***************************************************************************************************************************************
 -- SP DE CATEGORIAS
 -- LISTAR
@@ -165,7 +167,7 @@ BEGIN
 	INSERT INTO Categorias (categoria) VALUES (_categoria);
 END
 
-CALL spu_registrar_categorias("Celulares")
+CALL spu_registrar_categorias("Portatiles")
 
 -- ***************************************************************************************************************************************
 -- SP DE MARCAS
@@ -187,7 +189,7 @@ BEGIN
 	INSERT INTO Marcas (marca) VALUES (_marca);
 END
 
-CALL spu_registrar_marcas('LG')
+CALL spu_registrar_marcas('INTEL')
 
 -- ***************************************************************************************************************************************
 -- SP DE PRODUCTOS
@@ -218,7 +220,9 @@ BEGIN
 	INSERT INTO Productos(idcategoria, idmarca, descripcion, modelo, precio, stock) VALUES (_idcategoria, _idmarca, _descripcion, _modelo, _precio, _stock);
 END
 
-CALL spu_registrar_productos(1, 6, "Portatil color negro de 16 pulgadas", "Legion Pro", 11990, 50)
+CALL spu_registrar_productos(1, 3, "Iphone color dorado", "Iphone 14 Pro Max", 5000, 50)
+CALL spu_registrar_productos(3, 2, "Portatil de 500GB", "MSI Super Pro G424", 12000, 20)
+CALL spu_registrar_productos(1, 3, "Iphone color dorado", "Iphone 14 Pro Max", 5000, 50)
 
 DELETE FROM Productos WHERE idproducto=1;
 
@@ -265,7 +269,7 @@ CALL spu_obtener_productos(2)
 -- SP DE MOVIMIENTOS
 -- LISTAR
 DELIMITER $$
-CREATE DEFINER spu_listar_movimientos()
+CREATE PROCEDURE spu_listar_movimientos()
 BEGIN
     SELECT M.idmovimiento, M.tipo, M.descripcion, P.idproducto, M.fecha, U.nombreusuario, P.stock, M.cantidad
     FROM Movimientos M

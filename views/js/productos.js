@@ -138,12 +138,11 @@ document.addEventListener("DOMContentLoaded", () =>{
         const parametros = new URLSearchParams();
         parametros.append("operacion", "actualizarProductos");
 
-        //Enviamos datos de formulario a modal pa actualizar
         parametros.append("idproducto", idproducto);
-        parametros.append("descripcion", document.querySelector("#descripcion").value);
-        parametros.append("modelo", document.querySelector("#modelo").value);
-        parametros.append("precio", document.querySelector("#precio").value);
-        parametros.append("stock", document.querySelector("#stock").value);
+        parametros.append("descripcion", document.querySelector("#md-descripcion").value);
+        parametros.append("modelo", document.querySelector("#md-modelo").value);
+        parametros.append("precio", document.querySelector("#md-precio").value);
+        parametros.append("stock", document.querySelector("#md-stock").value);
 
         fetch("../controllers/productos.controller.php", {
             method: 'POST',
@@ -187,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () =>{
     }
    })
 
-   btActualizar.addEventListener("click", actualizarProductos);
+    btActualizar.addEventListener("click", actualizarProductos);
     btBuscar.addEventListener("click", buscarProductos);
     btGuardar.addEventListener("click", registrarProductos);
     listarProductos();

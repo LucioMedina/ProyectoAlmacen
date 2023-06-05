@@ -67,12 +67,12 @@
       <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal-marcas">Ver Marcas</button>
 
     <div class="container">
-      <div class="row mt-3">
+      <div class="row mt-8">
         <!--Formulario-->
         <div class="formProductos col-md-4">
           <form action="" autocomplete="off" id="form-productos">
             <div class="card">
-              <div class="card-header">
+              <div class="text fw-bold text-white">
                 Registro de productos
               </div>
               <div class="card-body">
@@ -100,7 +100,7 @@
                   <label for="stock" class="form-label">Stock</label>
                   <input type="number" class="form-control form-control-sm" id="stock">
                 </div>
-                <div class="card-footer text-muted">
+                <div class="">
                   <div class="d-grid gap-2">
                     <button class="btn btn-sm btn-success" id="btGuardar" type="button">Guardar</button>
                     <button class="btn btn-sm btn-secondary" type="reset">Reiniciar</button>
@@ -112,14 +112,9 @@
         </div>
       <!--Fin Formulario-->
 
-      <style>
+<style>
 
-
-        .card{
-          backdrop-filter: blur(20px);
-        }
-
-      </style>
+</style>
 
         <div class="col-md-8">
           <table id="tablaProductos" class="table table-striped">
