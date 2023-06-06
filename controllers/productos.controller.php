@@ -49,4 +49,9 @@ if (isset($_POST['operacion'])){
     $respuesta = $Producto->obtenerProductos($_POST['idproducto']);
     echo json_encode($respuesta);
   }
+
+  if($_POST['operacion'] == 'resumenProductos'){
+    $respuesta = $Producto->resumenProductos();
+    renderJSON($respuesta);
+  }
 }

@@ -89,12 +89,12 @@
                   <input type="number" class="form-control form-control-sm" id="idProducto">
                 </div>
                 <div class="mb-3">
-                  <label for="idusuario" class="form-label">ID Usuario</label>
-                  <input type="number" class="form-control form-control-sm" id="idUsuario">
-                </div>
-                <div class="mb-3">
                   <label for="tipo" class="form-label">Tipo</label>
-                  <input type="text" class="form-control form-control-sm" id="tipo">
+                  <select name="tipo" id="tipo" class="form-select">
+                      <option value="">Seleccione</option>
+                      <option value="SALIDA">SALIDA</option>
+                      <option value="ENTRADA">ENTRADA</option>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="descripcion" class="form-label">Descripcion</label>
@@ -103,6 +103,12 @@
                 <div class="mb-3">
                   <label for="cantidad" class="form-label">Cantidad</label>
                   <input type="number" class="form-control form-control-sm" id="cantidad">
+                </div>
+                <div class="mb-3">
+                  <label for="cantidad" class="form-label">Usuario</label>
+                  <span class="mr-2 d-none d-lg-inline text-gray-600" id="nombresesion">
+                  <?= $_SESSION['login']['nombres'] ?>
+                </span>
                 </div>
                 <div class="card-footer text-muted">
                   <div class="d-grid gap-2">

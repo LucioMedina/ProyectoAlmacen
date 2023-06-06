@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btGuardar = document.querySelector("#btGuardar");
   const cuerpoTabla = document.querySelector("tbody");
+  const inputUsuario  = document.querySelector("#usuario");
 
     function listarMovimientos(){
         const parametros = new URLSearchParams();
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <td>${element.descripcion}</td>
               <td>${element.idproducto}</td> 
               <td>${element.fecha}</td>
-              <td>${element.nombreusuario}</td>
+              <td> <?= $_SESSION['login']['nombres'] ?> </td>
               <td>${element.stock}</td>
               <td>${element.cantidad}</td>
             </tr>
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const parametros = new URLSearchParams();
             parametros.append("operacion", "registrarMovimientos");
             parametros.append("idproducto", document.querySelector("#idProducto").value);
-            parametros.append("idusuario", document.querySelector("#idUsuario").value);
+            parametros.append("idusuario", document.querySelector("#nombresesion").value);
             parametros.append("tipo", document.querySelector("#tipo").value);
             parametros.append("descripcion", document.querySelector("#descripcion").value);
             parametros.append("cantidad", document.querySelector("#cantidad").value);
@@ -56,9 +57,27 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             });
         }
-        }
-    
-        btGuardar.addEventListener("click", registrarMovimientos);
+      }
 
+      function mandarNombreUsuario() {
+        const parametros = new URLSearchParams();
+        parametros.append("operacion", "login");
+        parametros.append("idusuario", idusuario);
+    
+        fetch("../controllers/Usuario.controller.php", {
+          method: 'POST',
+          body: parametros
+        })
+        .then(response => response.json())
+        .then(datos => {
+          inputUsuario.value = datos.nombres;
+        });
+      }
+        
+    
+        btGuardar.addEventListener("click", registrarMovimientos)
+
+      
       listarMovimientos();
+      mandarNombreUsuario();
 })

@@ -77,12 +77,26 @@
               </div>
               <div class="card-body">
                 <div class="mb-3">
-                  <label for="idcategoria" class="form-label">ID Categoria</label>
-                  <input type="number" class="form-control form-control-sm" id="idCategoria">
+                  <label for="categoria" class="form-label">Categoria</label>
+                  <select name="categoria" id="idCategoria" class="form-select">
+                      <option value="">Seleccione</option>
+                      <option value="1">Portatiles</option>
+                      <option value="2">PC Componentes</option>
+                      <option value="3">Celulares</option>
+                  </select>
                 </div>
                 <div class="mb-3">
-                  <label for="idmarca" class="form-label">ID Marca</label>
-                  <input type="number" class="form-control form-control-sm" id="idMarca">
+                  <label for="marca" class="form-label">Marca</label>
+                  <select name="marca" id="idMarca" class="form-select">
+                      <option value="">Seleccione</option>
+                      <option value="1">MSI</option>
+                      <option value="2">INTEL</option>
+                      <option value="3">AMD</option>
+                      <option value="4">APPLE</option>
+                      <option value="5">SAMSUNG</option>
+                      <option value="6">LENOVO</option>
+                      <option value="7">LG</option>
+                  </select>
                 </div>
                 <div class="mb-3">
                   <label for="descripcion" class="form-label">Descripcion</label>

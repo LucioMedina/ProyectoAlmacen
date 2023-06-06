@@ -24,5 +24,7 @@ if (isset($_POST['operacion'])){
     ];
     $respuesta = $Movimiento->registrarMovimientos($datosSolicitados);
     echo json_encode($respuesta);
+  }else{
+    $resultado["mensaje"] = "Complete los campos";
   }
 }

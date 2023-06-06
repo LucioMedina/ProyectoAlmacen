@@ -17,6 +17,7 @@ if (isset($_POST['operacion'])){
     //Arreglo que contiene datos de login
     $resultado = [
       "status"        => false,
+      "idusuario"     => "",
       "apellidos"     => "",
       "nombres"       => "",
       "nivelacceso"   => "",
@@ -29,6 +30,7 @@ if (isset($_POST['operacion'])){
       if (password_verify($_POST['claveIngresada'], $claveEncriptada)){
         //Clave correcta
         $resultado["status"] = true;
+        $resultado["idusuario"] = $datoObtenido["idusuario"];
         $resultado["apellidos"] = $datoObtenido["apellidos"];
         $resultado["nombres"] = $datoObtenido["nombres"];
         $resultado["nivelacceso"] = $datoObtenido["nivelacceso"];

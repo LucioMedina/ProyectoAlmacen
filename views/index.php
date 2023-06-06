@@ -75,6 +75,84 @@ if (!isset($_SESSION['login']) || !$_SESSION['login']['status']){
 
 </div>
 
+<div class="container2 mt-3">
+    <div class="row">
+
+      <div class="col-md-7 ">
+        <canvas id="grafico"></canvas>
+
+      </div>
+      <div class="col-md-5 mt-5">
+ 
+       <ul id="lista-leyenda">
+
+       </ul>   
+
+       <button class="btn btn-sm btn-success" id="actualizar">Actualizar</button>
+        </div>
+
+
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () =>{
+
+
+      const btActualizar = document.querySelector("#actualizar");
+      const lienzo = document.getElementById("grafico");
+      const leyenda = document.querySelector("#lista-leyenda");
+
+      const graficoBarras = new Chart(lienzo, {
+        type: "bar",
+        data: {
+          labels: [ ],
+          datasets:[
+            {
+              label: '',
+              data:[],
+              
+            }
+          ]
+        }
+      });
+
+      function renderGraphic(coleccion = []){
+        let etiquetas = [];
+        let datos = [];
+        leyenda.innerHTML = ``;
+
+        coleccion.forEach(element =>{
+          etiquetas.push(element.idproducto);
+                    datos.push(element.Productos);
+
+                    const  tagLI = document.createElement('li');
+                    tagLI.innerHTML = `${element.idproducto}: <strong>${element.Productos}</strong`;
+                    leyenda.appendChild(tagLI);
+        });
+        graficoBarras.data.labels = etiquetas;
+        graficoBarras.data.datasets[0].data = datos;
+        graficoBarras.update();
+      }
+
+      function loadData(){
+        const parametros = new URLSearchParams();
+        parametros.append('operacion', 'resumenProductos');
+
+        fetch(`../controllers/productos.controller.php`,{
+          method: 'POST',
+          body: parametros
+        })
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+          renderGraphic(datos);
+        });
+      }
+      btActualizar.addEventListener('click',loadData);
+
+
+    });
+  </script>
 <style>
   .container {
     

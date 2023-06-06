@@ -32,8 +32,9 @@ document.addEventListener("DOMContentLoaded", () =>{
             <td>${element.precio}</td>
             <td>${element.stock}</td>
             <td>
-               <a href='#' class='editar' data-idproducto='${element.idproducto}'>Editar</a>
-               <a href='#' class='eliminar' data-idproducto='${element.idproducto}'>Eliminar</a>
+            <a href='#' class='editar' data-idproducto='${element.idproducto}'>Editar</a>
+            <a href='#' class='eliminar' data-idproducto='${element.idproducto}'>Eliminar</a>
+            <a href='#' class='movimiento' data-idproducto='${element.idproducto}'>Movimiento</a>
             </td>
         </tr>
             `;

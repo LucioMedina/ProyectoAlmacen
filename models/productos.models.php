@@ -100,4 +100,15 @@ class Producto extends Conexion{
 
     return $respuesta;
   }
+
+  public function resumenProductos(){
+    try{
+      $consulta = $this->conexion->prepare("CALL spu_resumen_productos()");
+      $consulta->execute();
+      return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch(Exception $e){
+          die($e->getMessage());
+        }
+  }
 }

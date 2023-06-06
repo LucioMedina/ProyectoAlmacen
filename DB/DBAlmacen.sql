@@ -21,15 +21,13 @@ CREATE TABLE Usuarios
 (
 	idusuario 		INT AUTO_INCREMENT PRIMARY KEY,
 	idpersona 		INT 		NOT NULL, -- FK
-	nombreusuario	VARCHAR(30) NOT NULL,
+	nombreusuario		VARCHAR(30) NOT NULL,
 	claveacceso		VARCHAR(100)	NOT NULL,
-	fechacreacion	DATETIME  	NOT NULL DEFAULT NOW(),
+	nivelacceso		CHAR(3)		NOT NULL,-- ADM = Administrador, SPV = Supervisor, AST = Asistente
+	fechacreacion		DATETIME  	NOT NULL DEFAULT NOW(),
 	estado			CHAR(1)			NOT NULL DEFAULT 1,
 	CONSTRAINT fk_idpersona_usuarios FOREIGN KEY (idpersona) REFERENCES Personas(idpersona)
 )ENGINE = INNODB;
-
--- Agregando campo NIVELACCESO tambien se me olvido
-ALTER TABLE Usuarios ADD nivelacceso CHAR(3) NOT NULL; -- ADM = Administrador, SPV = Supervisor, AST = Asistente
 
 CREATE TABLE Categorias
 (
@@ -51,10 +49,6 @@ CREATE TABLE Productos
 	CONSTRAINT fk_idcatego_produc FOREIGN KEY (idcategoria) REFERENCES Categorias(idcategoria),
 	CONSTRAINT fk_idmarca_produc FOREIGN KEY (idmarca) REFERENCES Marcas(idmarca)
 )ENGINE = INNODB;
-
--- Agregando los campos stock y estado a la tabla productos porque se me olvido xd
-ALTER TABLE Productos ADD stock INT NOT NULL;
-ALTER TABLE Productos ADD estado CHAR(1) NOT NULL DEFAULT 1;
 
 CREATE TABLE Movimientos
 (
@@ -144,8 +138,8 @@ CALL spu_registrar_usuarios(1, "Lucio", "$2y$10$2KunXWAGQp0/0SPQnRTftuIUdWF7/11n
 CALL spu_registrar_usuarios(3, 'Mirian', '$2y$10$lEXBZE43Zw3u3NRm6ePts.UgaL5BkH.ejh0iKMn.FLUhTPkTOHgXu', 'AST')
 CALL spu_registrar_usuarios(2, 'Israel', '$2y$10$2xjnShh2W9ctDyeFduPmgeXEOYswLtHCJYS20RRNPvOtcN06bLkFq', 'SPV')
 
-DELETE FROM Usuarios WHERE idusuario = 2
-SELECT * FROM Usuarios
+DELETE FROM Movimientos WHERE tipo = ''
+SELECT * FROM movimientos
 UPDATE Usuarios SET estado = 1
 -- ***************************************************************************************************************************************
 -- SP DE CATEGORIAS
@@ -303,10 +297,23 @@ BEGIN
     END IF;
 END $$
 
-SELECT * FROM Productos
+SELECT * FROM Movimientos
 
 CALL spu_listar_productos()
 
 CALL spu_registrar_movimientos(2, 3, 'ENTRADA', 'Resivimos nuevas laptops', 50);
 
 UPDATE Productos SET estado = '1' WHERE estado = '0'
+
+-- RESUMEN DE MOVIMIENTOS
+DELIMITER$$
+CREATE PROCEDURE spu_resumen_productos()
+BEGIN
+	SELECT stock, COUNT(*) AS Productos
+	FROM Productos
+	GROUP BY stock
+	ORDER BY idproducto DESC;
+END 
+SELECT * FROM Usuarios
+CALL spu_resumen_productos()
+CALL spu_buscar_usuarios('Lucio')
